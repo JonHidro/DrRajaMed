@@ -17,9 +17,12 @@ struct SectionHeader: View {
                 Text(title)
                     .font(.title2).bold()
                     .foregroundColor(.primary)
+                    .padding(.top, 5) // Add a small top padding (adjust the value as needed)
+                Spacer()
+                Text("See All")
+                    .foregroundColor(.blue)
                 Image(systemName: "chevron.right")
                     .foregroundColor(.gray)
-                Spacer()
             }
             .contentShape(Rectangle())    // ← entire row tappable
             .padding(.horizontal)

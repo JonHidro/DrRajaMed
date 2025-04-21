@@ -8,43 +8,48 @@
 import SwiftUI
 
 struct NotificationsView: View {
+    @EnvironmentObject var themeManager: ThemeManager
+
     var body: some View {
-        VStack(spacing: 0) {
-            // Header area
-            ZStack(alignment: .topLeading) {
-                RadialGradient(
-                    gradient: Gradient(colors: [Color.blue, Color.purple]),
-                    center: .topLeading,
-                    startRadius: 50,
-                    endRadius: 400
-                )
-                .ignoresSafeArea(edges: .top)
-                .frame(height: 140)
+        ScrollView {
+            VStack(spacing: 0) {
+                // Header with lowered title (matching ProfileView)
+                ZStack(alignment: .bottomLeading) {
+                    RadialGradient(
+                        gradient: Gradient(colors: [Color.orange, Color.red]),
+                        center: .topLeading,
+                        startRadius: 50,
+                        endRadius: 400
+                    )
+                    .ignoresSafeArea(edges: .top)
+                    .frame(height: 100)
+                    
+                    Text("Notifications")
+                        .font(.largeTitle)
+                        .fontWeight(.bold)
+                        .foregroundColor(.white)
+                        .padding(.leading, 16)
+                        .padding(.bottom, 01)
+                }
                 
-                Text("Notifications")
-                    .font(.largeTitle)
-                    .fontWeight(.bold)
-                    .foregroundColor(.white)
-                    .padding(.top, 50)
-                    .padding(.leading, 16)
+                Spacer()
+                VStack(spacing: 12) {
+                    Image(systemName: "bell.slash.fill")
+                        .font(.system(size: 60))
+                        .foregroundColor(.secondary)
+                        .padding(.top, 40)
+                    
+                    Text("No new notifications")
+                        .font(.title3)
+                        .foregroundColor(.secondary)
+                }
+                .padding(.top, 40)
+                Spacer()
             }
-            
-            // Main content placeholder
-            Spacer()
-            VStack(spacing: 12) {
-                Image(systemName: "bell.slash.fill")
-                    .font(.system(size: 60))
-                    .foregroundColor(.secondary)
-                
-                Text("No new notifications")
-                    .font(.title3)
-                    .foregroundColor(.secondary)
-            }
-            .padding(.top, 40)
-            Spacer()
         }
-        .navigationTitle("Notifications")
-        .navigationBarTitleDisplayMode(.inline)
+        .navigationBarHidden(true)
+        .edgesIgnoringSafeArea(.top)
+        .environment(\.colorScheme, themeManager.isDarkMode ? .dark : .light)
     }
 }
 
@@ -52,6 +57,7 @@ struct NotificationsView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack {
             NotificationsView()
+                .environmentObject(ThemeManager())
         }
     }
 }

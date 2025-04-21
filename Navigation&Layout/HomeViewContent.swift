@@ -26,8 +26,8 @@ struct HomeViewContent: View {
                             title: "Procedures",
                             destination: AnyView(ProceduresListView(procedures: procedures))
                         )
-                        .background(Color(.systemBackground))
-
+                        .background(themeManager.primaryBackgroundColor)
+                        
                         HorizontalScrollView(items: procedures) { procedure in
                             NavigationLink(
                                 value: NavigationManager.Destination.procedureDetail(procedure)
@@ -69,16 +69,17 @@ struct HomeViewContent_Previews: PreviewProvider {
             .previewDevice("iPhone 14 Pro")
             .previewDisplayName("HomeView + BottomNavBar (Interactive)")
     }
-
+    
     private struct PreviewWrapper: View {
         @StateObject var authManager       = AuthManager.preview
         @StateObject var navigationManager = NavigationManager()
         @StateObject var themeManager      = ThemeManager()
         @StateObject var userSettings      = UserSettings()
         @StateObject var favoritesManager  = FavoritesManager()
-
-        @State private var selectedTab: BottomNavBar.Tab = .home
-
+        @StateObject var appState          = AppState() // ✅ Injected
+        
+        @State private var selectedTab: Tab = .home // ✅ Global enum now
+        
         var body: some View {
             ZStack(alignment: .bottom) {
                 NavigationStack(path: $navigationManager.navigationPath) {
@@ -100,10 +101,10 @@ struct HomeViewContent_Previews: PreviewProvider {
                     case .procedureDetail(let proc):
                         ProcedureDetailView(procedure: proc)
                     case .caseDetail(let caseItem):
-                        CaseDetailView(caseItem: caseItem)
+                        CaseDetailView(caseItem: caseItem) // ✅ removed selectedTab
                     }
                 }
-
+                
                 BottomNavBar(selectedTab: $selectedTab)
             }
             .environmentObject(authManager)
@@ -111,6 +112,7 @@ struct HomeViewContent_Previews: PreviewProvider {
             .environmentObject(themeManager)
             .environmentObject(userSettings)
             .environmentObject(favoritesManager)
+            .environmentObject(appState) // ✅ Make sure it's injected here
             .ignoresSafeArea(edges: .top)
         }
     }

@@ -10,6 +10,7 @@ import SwiftUI
 struct SearchView: View {
     let cases: [CaseModel]
     let procedures: [ProcedureModel]
+    @EnvironmentObject var themeManager: ThemeManager
     
     @State private var searchText: String = ""
     @State private var recentSearches: [String] = UserDefaults.standard.stringArray(forKey: "RecentSearches") ?? []
@@ -40,8 +41,27 @@ struct SearchView: View {
     }
     
     var body: some View {
-        NavigationStack {
-            VStack {
+        ScrollView {
+            VStack(spacing: 0) {
+                // Header with lowered title (matching NotificationsView)
+                ZStack(alignment: .bottomLeading) {
+                    RadialGradient(
+                        gradient: Gradient(colors: [Color.cyan, Color.green]),
+                        center: .topLeading,
+                        startRadius: 50,
+                        endRadius: 400
+                    )
+                    .ignoresSafeArea(edges: .top)
+                    .frame(height: 100)
+                    
+                    Text("Search")
+                        .font(.largeTitle)
+                        .fontWeight(.bold)
+                        .foregroundColor(.white)
+                        .padding(.leading, 16)
+                        .padding(.bottom, 1)
+                }
+                
                 // MARK: – Search Bar
                 HStack {
                     TextField("Search cases & procedures...", text: $searchText, onCommit: saveSearch)
@@ -58,6 +78,7 @@ struct SearchView: View {
                         .padding(.trailing, 10)
                     }
                 }
+                .padding(.top, 16)
                 
                 // MARK: – Recent Searches
                 if !recentSearches.isEmpty {
@@ -91,30 +112,35 @@ struct SearchView: View {
                 }
                 
                 // MARK: – Results
-                List(filteredResults) { result in
-                    NavigationLink(destination: destination(for: result)) {
-                        HStack(spacing: 12) {
-                            Image(result.imageName)
-                                .resizable()
-                                .frame(width: 50, height: 50)
-                                .cornerRadius(8)
-                            
-                            VStack(alignment: .leading, spacing: 4) {
-                                Text(result.title)
-                                    .font(.headline)
-                                Text(result.description)
-                                    .font(.subheadline)
-                                    .foregroundColor(.secondary)
-                                    .lineLimit(2)
+                if !filteredResults.isEmpty {
+                    List(filteredResults) { result in
+                        NavigationLink(destination: destination(for: result)) {
+                            HStack(spacing: 12) {
+                                Image(result.imageName)
+                                    .resizable()
+                                    .frame(width: 50, height: 50)
+                                    .cornerRadius(8)
+                                
+                                VStack(alignment: .leading, spacing: 4) {
+                                    Text(result.title)
+                                        .font(.headline)
+                                    Text(result.description)
+                                        .font(.subheadline)
+                                        .foregroundColor(.secondary)
+                                        .lineLimit(2)
+                                }
                             }
+                            .padding(.vertical, 4)
                         }
-                        .padding(.vertical, 4)
                     }
+                    .listStyle(PlainListStyle())
+                    .frame(height: CGFloat(filteredResults.count * 70))
                 }
-                .listStyle(PlainListStyle())
             }
-            .navigationTitle("Search")
         }
+        .navigationBarHidden(true)
+        .edgesIgnoringSafeArea(.top)
+        .environment(\.colorScheme, themeManager.isDarkMode ? .dark : .light)
     }
     
     // MARK: – Helpers
@@ -155,7 +181,6 @@ struct SearchView: View {
 }
 
 // MARK: – SearchResult
-
 struct SearchResult: Identifiable {
     let id = UUID()
     let title: String
@@ -164,10 +189,11 @@ struct SearchResult: Identifiable {
 }
 
 // MARK: – Preview
-
 struct SearchView_Previews: PreviewProvider {
     static var previews: some View {
-        // Provide dummy data as needed.
-        SearchView(cases: [], procedures: [])
+        NavigationStack {
+            SearchView(cases: [], procedures: [])
+                .environmentObject(ThemeManager())
+        }
     }
 }

@@ -10,6 +10,8 @@
 		460C3BDF2DA755EF00B2C470 /* NavigationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 460C3BDE2DA755EA00B2C470 /* NavigationManager.swift */; };
 		46134ABE2DA4D7930030597E /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 46134ABD2DA4D7930030597E /* GoogleSignIn */; };
 		46134AC02DA4D7930030597E /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 46134ABF2DA4D7930030597E /* GoogleSignInSwift */; };
+		46318A502DB4A99800E2A7C1 /* NoteTakingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46318A4F2DB4A96D00E2A7C1 /* NoteTakingView.swift */; };
+		463F5E2D2DB1EEFD000B3FDB /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 463F5E2C2DB1EEF3000B3FDB /* AppState.swift */; };
 		46450DE52DA42F6600AB7658 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 46450DE42DA42F6600AB7658 /* GoogleSignIn */; };
 		46450DE72DA42F6600AB7658 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 46450DE62DA42F6600AB7658 /* GoogleSignInSwift */; };
 		4653A9A52D9E040100D2BB4F /* IMG_4012.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 4653A98A2D9E040100D2BB4F /* IMG_4012.mp4 */; };
@@ -48,7 +50,9 @@
 		4653A9CC2D9E041200D2BB4F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4653A9CB2D9E041200D2BB4F /* Assets.xcassets */; };
 		4666565F2DA730A700D0F3F9 /* BottomNavBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4666565E2DA7309F00D0F3F9 /* BottomNavBar.swift */; };
 		466656612DA730E900D0F3F9 /* MainContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 466656602DA730E300D0F3F9 /* MainContainerView.swift */; };
+		466726DD2DB28ECF00DE5A11 /* Tab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 466726DC2DB28ECB00DE5A11 /* Tab.swift */; };
 		466939A32DAC6BF900BDD737 /* ForgotPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 466939A22DAC6BE500BDD737 /* ForgotPasswordView.swift */; };
+		4692FD6B2DB5ECC200569BD0 /* AuthGateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4692FD6A2DB5ECB900569BD0 /* AuthGateView.swift */; };
 		46BAD81B2DAB0F6E00916E41 /* SignInEmailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46BAD81A2DAB0F6400916E41 /* SignInEmailView.swift */; };
 		46C3DCDB2DA62806007D7D5C /* FavoritesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46C3DCDA2DA627FE007D7D5C /* FavoritesManager.swift */; };
 		46D8CDF12DA8E2B900E6FCC2 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 46D8CDF02DA8E2B900E6FCC2 /* GoogleService-Info.plist */; };
@@ -65,6 +69,8 @@
 
 /* Begin PBXFileReference section */
 		460C3BDE2DA755EA00B2C470 /* NavigationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationManager.swift; sourceTree = "<group>"; };
+		46318A4F2DB4A96D00E2A7C1 /* NoteTakingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteTakingView.swift; sourceTree = "<group>"; };
+		463F5E2C2DB1EEF3000B3FDB /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		4653A9732D9E013500D2BB4F /* DrRajaMed.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DrRajaMed.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4653A9782D9E040100D2BB4F /* AuthHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthHelper.swift; sourceTree = "<group>"; };
 		4653A9792D9E040100D2BB4F /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
@@ -103,7 +109,9 @@
 		465B43942DA5E211003400B3 /* DrRajaMed.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DrRajaMed.entitlements; sourceTree = "<group>"; };
 		4666565E2DA7309F00D0F3F9 /* BottomNavBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomNavBar.swift; sourceTree = "<group>"; };
 		466656602DA730E300D0F3F9 /* MainContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainContainerView.swift; sourceTree = "<group>"; };
+		466726DC2DB28ECB00DE5A11 /* Tab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tab.swift; sourceTree = "<group>"; };
 		466939A22DAC6BE500BDD737 /* ForgotPasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordView.swift; sourceTree = "<group>"; };
+		4692FD6A2DB5ECB900569BD0 /* AuthGateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthGateView.swift; sourceTree = "<group>"; };
 		46BAD81A2DAB0F6400916E41 /* SignInEmailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInEmailView.swift; sourceTree = "<group>"; };
 		46C3DCDA2DA627FE007D7D5C /* FavoritesManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesManager.swift; sourceTree = "<group>"; };
 		46D8CDF02DA8E2B900E6FCC2 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -137,6 +145,7 @@
 		4653A9812D9E040100D2BB4F /* Authentication */ = {
 			isa = PBXGroup;
 			children = (
+				4692FD6A2DB5ECB900569BD0 /* AuthGateView.swift */,
 				466939A22DAC6BE500BDD737 /* ForgotPasswordView.swift */,
 				46BAD81A2DAB0F6400916E41 /* SignInEmailView.swift */,
 				4653A9782D9E040100D2BB4F /* AuthHelper.swift */,
@@ -155,6 +164,8 @@
 		4653A9882D9E040100D2BB4F /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				466726DC2DB28ECB00DE5A11 /* Tab.swift */,
+				463F5E2C2DB1EEF3000B3FDB /* AppState.swift */,
 				460C3BDE2DA755EA00B2C470 /* NavigationManager.swift */,
 				46C3DCDA2DA627FE007D7D5C /* FavoritesManager.swift */,
 				4653A9822D9E040100D2BB4F /* DrRajaMed.swift */,
@@ -162,6 +173,7 @@
 				4653A9842D9E040100D2BB4F /* HorizontalScrollView.swift */,
 				4653A9852D9E040100D2BB4F /* SectionHeader.swift */,
 				4653A9872D9E040100D2BB4F /* ThemeManager.swift */,
+				46318A4F2DB4A96D00E2A7C1 /* NoteTakingView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -333,11 +345,13 @@
 				4653A9B12D9E040100D2BB4F /* ProceduresList.swift in Sources */,
 				4653A9B22D9E040100D2BB4F /* FeatureCarousel.swift in Sources */,
 				4653A9B42D9E040100D2BB4F /* CasesList.swift in Sources */,
+				4692FD6B2DB5ECC200569BD0 /* AuthGateView.swift in Sources */,
 				4653A9B52D9E040100D2BB4F /* FavoritesView.swift in Sources */,
 				4653A9B62D9E040100D2BB4F /* AuthHelper.swift in Sources */,
 				4653A9B82D9E040100D2BB4F /* HomeViewContent.swift in Sources */,
 				4653A9B92D9E040100D2BB4F /* SignupView.swift in Sources */,
 				4653A9BA2D9E040100D2BB4F /* ProcedureInstances.swift in Sources */,
+				463F5E2D2DB1EEFD000B3FDB /* AppState.swift in Sources */,
 				4653A9BB2D9E040100D2BB4F /* SearchView.swift in Sources */,
 				4653A9BD2D9E040100D2BB4F /* CaseInstances.swift in Sources */,
 				4653A9BE2D9E040100D2BB4F /* ProcedureModel.swift in Sources */,
@@ -349,10 +363,12 @@
 				4653A9C42D9E040100D2BB4F /* UserSettings.swift in Sources */,
 				4653A9C52D9E040100D2BB4F /* DrRajaMed.swift in Sources */,
 				4653A9C62D9E040100D2BB4F /* ProcedureCardView.swift in Sources */,
+				466726DD2DB28ECF00DE5A11 /* Tab.swift in Sources */,
 				4653A9C72D9E040100D2BB4F /* LoadingScreen.swift in Sources */,
 				466656612DA730E900D0F3F9 /* MainContainerView.swift in Sources */,
 				4653A9C82D9E040100D2BB4F /* NotificationsView.swift in Sources */,
 				460C3BDF2DA755EF00B2C470 /* NavigationManager.swift in Sources */,
+				46318A502DB4A99800E2A7C1 /* NoteTakingView.swift in Sources */,
 				4653A9CA2D9E040100D2BB4F /* HeaderView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

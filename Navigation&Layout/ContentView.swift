@@ -1,16 +1,15 @@
 //
 //  ContentView.swift
-//  DrRaja Prototype #3
+//  DrRajaMed
 //
-//  Created by Jonathan Hidrogo on 3/28/25.
+//  Created by Jonathan Hidrogo on 4/16/25.
 //
 
 import SwiftUI
 
 struct ContentView: View {
-    // ① Injected data:
-    let procedures: [ProcedureModel]
-    let cases:       [CaseModel]
+    @EnvironmentObject var appViewModel: AppViewModel // Add AppViewModel
+
 
     @EnvironmentObject var authManager:      AuthManager
     @EnvironmentObject var navigationManager: NavigationManager
@@ -18,7 +17,7 @@ struct ContentView: View {
     var body: some View {
         NavigationStack(path: $navigationManager.navigationPath) {
             if authManager.isSignedIn {
-                HomeViewContent(procedures: procedures, cases: cases)
+                HomeViewContent(procedures: appViewModel.procedures, cases: appViewModel.cases) // Access data from AppViewModel
             } else {
                 SignInView()
             }
@@ -26,12 +25,12 @@ struct ContentView: View {
         .navigationDestination(for: NavigationManager.Destination.self) { destination in
             switch destination {
             case .home:
-                HomeViewContent(procedures: procedures, cases: cases)
+                HomeViewContent(procedures: appViewModel.procedures, cases: appViewModel.cases) // Access data from AppViewModel
 
             case .search:
                 // pass the right arrays here:
-                SearchView(cases:       cases,
-                           procedures: procedures)
+                SearchView(cases:       appViewModel.cases, // Access data from AppViewModel
+                           procedures: appViewModel.procedures) // Access data from AppViewModel
 
             case .favorites:
                 FavoritesView()
@@ -51,4 +50,3 @@ struct ContentView: View {
         }
     }
 }
-

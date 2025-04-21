@@ -9,6 +9,7 @@ import SwiftUI
 
 struct SignInView: View {
     @EnvironmentObject var authManager: AuthManager
+    var onCreateAccount: (() -> Void)? = nil // NEW
 
     var body: some View {
         NavigationStack {
@@ -27,8 +28,10 @@ struct SignInView: View {
                     SignInButtons()
                         .environmentObject(authManager)
 
-                    // ← now points to SignUpView()
-                    NavigationLink(destination: SignupView()) {
+                    // ✅ Replace NavigationLink with a button callback
+                    Button(action: {
+                        onCreateAccount?()
+                    }) {
                         Text("Sign Up with Email")
                             .font(.system(size: 18, weight: .medium))
                             .frame(maxWidth: .infinity, minHeight: 40)
@@ -62,4 +65,3 @@ struct SignInView_Previews: PreviewProvider {
             .previewDevice("iPhone 14 Pro")
     }
 }
-

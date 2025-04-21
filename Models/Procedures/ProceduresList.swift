@@ -9,26 +9,35 @@ import SwiftUI
 
 struct ProceduresListView: View {
     let procedures: [ProcedureModel]
+    @EnvironmentObject var favorites: FavoritesManager
 
     var body: some View {
-        List(procedures) { proc in
-            NavigationLink(destination: ProcedureDetailView(procedure: proc)) {
-                HStack {
-                    Image(proc.imageName)
+        List(procedures) { procedure in
+            NavigationLink(destination: ProcedureDetailView(procedure: procedure)
+                            .environmentObject(favorites)) {
+                HStack(spacing: 12) {
+                    Image(procedure.imageName)
                         .resizable()
+                        .scaledToFill()
                         .frame(width: 50, height: 50)
                         .cornerRadius(8)
-                    VStack(alignment: .leading) {
-                        Text(proc.name)
+                        .clipped()
+
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text(procedure.name)
                             .font(.headline)
-                        Text(proc.description)
+                        Text(procedure.description)
                             .font(.subheadline)
                             .foregroundColor(.secondary)
+                            .lineLimit(2)
                     }
                 }
+                .padding(.vertical, 4)
             }
+            .buttonStyle(PlainButtonStyle())
         }
         .listStyle(PlainListStyle())
         .navigationTitle("Procedures")
     }
 }
+

@@ -9,10 +9,11 @@ import SwiftUI
 import AVKit
 import FirebaseStorage
 
-// MARK: – Layout Constants
 private enum Layout {
-    static let headerHeight: CGFloat = 120
-    static let videoHeight: CGFloat  = 220
+    static let headerHeight: CGFloat = 100
+    static let videoHeight: CGFloat = 220
+    static let infoBoxCollapsedHeight: CGFloat = 100
+    static let infoBoxExpandedHeight: CGFloat = 200
 }
 
 struct ProcedureDetailView: View {
@@ -20,95 +21,78 @@ struct ProcedureDetailView: View {
 
     @Environment(\.dismiss) private var dismiss
     @EnvironmentObject private var favorites: FavoritesManager
+    @EnvironmentObject private var navigationManager: NavigationManager
+    @EnvironmentObject private var appState: AppState
+    @EnvironmentObject private var themeManager: ThemeManager
     @Environment(\.colorScheme) var colorScheme
 
     @State private var subtitleIndex = 0
     @State private var pickerSteps: [String: Int] = [:]
     @State private var isFavoritedLocal = false
     @State private var videoURL: URL?
+    @State private var isInfoExpanded: Bool = false
+    @State private var showNotes = false
 
     private var isFavorited: Bool {
         favorites.procedures.contains { $0.id == procedure.id }
     }
 
     var body: some View {
-        // Removed the inner NavigationStack if this view is already pushed inside one
-        ScrollView {
-            VStack(spacing: 20) {
-                headerView
-                videoSection
-                subtitleNavigation
-                stepPicker
-                Text(infoForCurrentStep())
-                    .font(.body)
-                    .multilineTextAlignment(.center)
-                    .padding(.horizontal)
+        ZStack(alignment: .bottom) {
+            VStack(spacing: 0) {
+                ZStack(alignment: .bottomLeading) {
+                    RadialGradient(
+                        gradient: Gradient(colors: [Color.orange, Color.red]),
+                        center: .topLeading,
+                        startRadius: 50,
+                        endRadius: 400
+                    )
+                    .ignoresSafeArea(edges: .top)
+                    .frame(height: Layout.headerHeight)
+
+                    Text(procedure.name)
+                        .font(.largeTitle)
+                        .fontWeight(.bold)
+                        .foregroundColor(.white)
+                        .padding(.leading, 16)
+                        .padding(.bottom, 1)
+                }
+
+                ScrollView {
+                    VStack(spacing: 16) {
+                        videoSection
+                        subtitleNavigation
+                        infoBox
+                        stepPicker
+                        actionButtonsView
+                    }
+                    .padding(.top, 16)
+                    .padding(.bottom, 60)
+                }
             }
-            .padding(.top)
-            .padding(.bottom, 40) // Provides space above the tab bar
+
+            BottomNavBar(selectedTab: $appState.selectedTab) { newTab in
+                navigationManager.goToRoot()
+            }
         }
-        .toolbar(.visible, for: .tabBar) // Keeps the native tab bar showing
-        .navigationTitle(procedure.name)
-        .navigationBarTitleDisplayMode(.inline)
+        .navigationBarHidden(true)
+        .edgesIgnoringSafeArea(.top)
+        .environment(\.colorScheme, themeManager.isDarkMode ? .dark : .light)
         .onAppear {
-            // Ensure that the pickerSteps dictionary is initialized for the current subtitle
             pickerSteps[procedure.subtitles[subtitleIndex]] = 0
             isFavoritedLocal = isFavorited
             fetchVideoURL()
         }
+        .sheet(isPresented: $showNotes) {
+            let subtitle = procedure.subtitles[subtitleIndex]
+            let step = pickerSteps[subtitle] ?? 0
+            let noteKey = "notes_\(procedure.name)_\(subtitle)_step\(step)"
+            NoteTakingView(noteKey: noteKey)
+        }
     }
 }
 
-// MARK: – Header
 private extension ProcedureDetailView {
-    var headerView: some View {
-        ZStack {
-            RoundedRectangle(cornerRadius: 16)
-                .fill(
-                    LinearGradient(
-                        colors: [Color.blue, Color.purple],
-                        startPoint: .topLeading,
-                        endPoint: .bottomTrailing
-                    )
-                )
-                .frame(height: Layout.headerHeight)
-                .padding(.horizontal)
-
-            HStack {
-                Text(procedure.name)
-                    .font(.title2)
-                    .fontWeight(.bold)
-                    .foregroundColor(.white)
-
-                Spacer()
-
-                HStack(spacing: 16) {
-                    Button {
-                        isFavoritedLocal.toggle()
-                        if isFavoritedLocal {
-                            favorites.procedures.append(procedure)
-                        } else {
-                            favorites.procedures.removeAll { $0.id == procedure.id }
-                        }
-                    } label: {
-                        Image(systemName: isFavoritedLocal ? "heart.fill" : "heart")
-                    }
-
-                    Button(action: takeNotes) {
-                        Image(systemName: "pencil")
-                    }
-
-                    Button(action: openChat) {
-                        Image(systemName: "message")
-                    }
-                }
-                .font(.title3)
-                .foregroundColor(.white)
-            }
-            .padding(.horizontal, 24)
-        }
-    }
-
     var videoSection: some View {
         Group {
             if let url = videoURL {
@@ -117,7 +101,7 @@ private extension ProcedureDetailView {
                     .cornerRadius(12)
                     .padding(.horizontal)
             } else {
-                ProgressView("Loading video…")
+                ProgressView("Loading video...")
                     .frame(height: Layout.videoHeight)
                     .frame(maxWidth: .infinity)
                     .background(Color(.systemGray6))
@@ -152,6 +136,46 @@ private extension ProcedureDetailView {
         .padding(.horizontal, 30)
     }
 
+    var infoBox: some View {
+        VStack(alignment: .leading, spacing: 0) {
+            HStack {
+                Text("Step Information")
+                    .font(.headline)
+                    .padding(.leading)
+
+                Spacer()
+
+                Button(action: {
+                    withAnimation(.easeInOut(duration: 0.3)) {
+                        isInfoExpanded.toggle()
+                    }
+                }) {
+                    Image(systemName: isInfoExpanded ? "chevron.up" : "chevron.down")
+                        .padding(8)
+                        .background(Color(.systemGray5))
+                        .clipShape(Circle())
+                }
+                .padding(.trailing)
+            }
+            .padding(.top, 8)
+
+            ScrollView {
+                Text(infoForCurrentStep())
+                    .font(.body)
+                    .multilineTextAlignment(.leading)
+                    .padding(.horizontal)
+                    .padding(.bottom, 10)
+                    .padding(.top, 5)
+            }
+            .frame(height: isInfoExpanded ? Layout.infoBoxExpandedHeight : Layout.infoBoxCollapsedHeight)
+        }
+        .background(
+            RoundedRectangle(cornerRadius: 12)
+                .fill(Color(.systemGray6))
+        )
+        .padding(.horizontal)
+    }
+
     var stepPicker: some View {
         Picker("Steps", selection: Binding(
             get: { pickerSteps[procedure.subtitles[subtitleIndex]] ?? 0 },
@@ -164,15 +188,56 @@ private extension ProcedureDetailView {
             }
         }
         .pickerStyle(WheelPickerStyle())
-        .frame(height: 150)
+        .frame(height: 120)
         .padding(.horizontal)
         .onChange(of: pickerSteps[procedure.subtitles[subtitleIndex]] ?? 0) { _ in
             fetchVideoURL()
         }
     }
+
+    var actionButtonsView: some View {
+        HStack(spacing: 40) {
+            Button {
+                isFavoritedLocal.toggle()
+                if isFavoritedLocal {
+                    favorites.procedures.append(procedure)
+                } else {
+                    favorites.procedures.removeAll { $0.id == procedure.id }
+                }
+            } label: {
+                VStack {
+                    Image(systemName: isFavoritedLocal ? "heart.fill" : "heart")
+                        .font(.title2)
+                    Text("Favorite")
+                        .font(.caption)
+                }
+            }
+            .tint(.red)
+
+            Button(action: takeNotes) {
+                VStack {
+                    Image(systemName: "pencil")
+                        .font(.title2)
+                    Text("Notes")
+                        .font(.caption)
+                }
+            }
+            .tint(.blue)
+
+            Button(action: openChat) {
+                VStack {
+                    Image(systemName: "message")
+                        .font(.title2)
+                    Text("Chat")
+                        .font(.caption)
+                }
+            }
+            .tint(.green)
+        }
+        .padding(.vertical)
+    }
 }
 
-// MARK: – Actions & Helpers
 private extension ProcedureDetailView {
     func navigateLeft() {
         guard subtitleIndex > 0 else { return }
@@ -208,11 +273,11 @@ private extension ProcedureDetailView {
 
     func infoForCurrentStep() -> String {
         let step = (pickerSteps[procedure.subtitles[subtitleIndex]] ?? 0) + 1
-        return "Information about Step \(step) for \(procedure.subtitles[subtitleIndex]) in \(procedure.name)."
+        return "Information about Step \(step) for \(procedure.subtitles[subtitleIndex]) in \(procedure.name).\n\nThis is where the detailed explanation of the current step would go. This content can be scrolled if it exceeds the visible area of the box. The information might include instructions, warnings, tips, and other relevant details that would help the user understand and perform this specific procedure step correctly.\n\nAdditional paragraphs of information can provide more context or detail as needed."
     }
 
     func takeNotes() {
-        // TODO: Implement note taking functionality.
+        showNotes = true
     }
 
     func openChat() {

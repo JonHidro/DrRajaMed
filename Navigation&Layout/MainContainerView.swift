@@ -15,22 +15,22 @@ struct MainContainerView: View {
     // Environment objects from @main
     @EnvironmentObject var authManager: AuthManager
     @EnvironmentObject var navigationManager: NavigationManager
+    @EnvironmentObject var appState: AppState
 
-    // Controls which tab’s root screen is visible
-    @State private var selectedTab: BottomNavBar.Tab = .home
+    // NEW: Drives actual view rendering (can be de-synced briefly from selectedTab)
+    @State private var renderTab: Tab = .home
 
     var body: some View {
         ZStack(alignment: .bottom) {
-            // ────────────────────────────────────────────────────
-            // 1) Single NavigationStack for all pushes and pops
+            // 1) NavigationStack handles all routing centrally
             NavigationStack(path: $navigationManager.navigationPath) {
-                Group {
+                VStack {
                     if !authManager.isSignedIn {
-                        // If user is not signed in, show SignInView
-                        SignInView()
-                    } else {
-                        // Display root view for selected tab
-                        switch selectedTab {
+                        AuthGateView() // Handles both SignIn and SignUp flow
+                    }
+                        else {
+                        // Use renderTab to drive which view is displayed
+                        switch renderTab {
                         case .home:
                             HomeViewContent(procedures: procedures, cases: cases)
                         case .search:
@@ -53,53 +53,32 @@ struct MainContainerView: View {
                     }
                 }
             }
-            .id(selectedTab) // ✅ Forces view stack to reset and re-render on tab switch
+            .id(appState.selectedTab)
 
-            // ────────────────────────────────────────────────────
-            // 2) Only show the BottomNavBar once signed in
+            // 2) Persistent BottomNavBar once signed in
             if authManager.isSignedIn {
-                BottomNavBar(selectedTab: $selectedTab) { newTab in
-                    if selectedTab != newTab {
-                        selectedTab = newTab
+                BottomNavBar(selectedTab: $appState.selectedTab) { newTab in
+                    if newTab == .home && appState.selectedTab == .home {
+                        // Fake tab switch to refresh HomeViewContent
+                        appState.selectedTab = .profile
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
+                            appState.selectedTab = .home
+                            navigationManager.goToRoot()
+                            renderTab = .home
+                        }
+                    } else {
+                        appState.selectedTab = newTab
+                        navigationManager.goToRoot()
+                        renderTab = newTab
                     }
-
-                    // Always reset the stack regardless of same or new tab
-                    navigationManager.navigationPath = NavigationPath()
                 }
                 .environmentObject(navigationManager)
             }
         }
-    }
-}
-
-struct MainContainerView_Previews: PreviewProvider {
-    static var previews: some View {
-        Group {
-            // Preview: Signed-out (no bottom bar)
-            MainContainerView(procedures: procedures, cases: cases)
-                .environmentObject({
-                    let auth = AuthManager()
-                    auth.isSignedIn = false
-                    return auth
-                }())
-                .environmentObject(NavigationManager())
-                .environmentObject(ThemeManager())
-                .environmentObject(UserSettings())
-                .environmentObject(FavoritesManager())
-                .previewDisplayName("Signed-Out")
-
-            // Preview: Signed-in (bottom bar visible)
-            MainContainerView(procedures: procedures, cases: cases)
-                .environmentObject({
-                    let auth = AuthManager()
-                    auth.isSignedIn = true
-                    return auth
-                }())
-                .environmentObject(NavigationManager())
-                .environmentObject(ThemeManager())
-                .environmentObject(UserSettings())
-                .environmentObject(FavoritesManager())
-                .previewDisplayName("Home with Bottom Bar")
+        .onAppear {
+            // Initial sync of visual rendering tab
+            renderTab = appState.selectedTab
         }
+        .environmentObject(appState)
     }
 }

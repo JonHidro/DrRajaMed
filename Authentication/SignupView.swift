@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct SignupView: View {
+    var onBackToSignIn: (() -> Void)? = nil
+
     // MARK: – Form state
     @State private var firstName       = ""
     @State private var lastName        = ""
@@ -15,24 +17,20 @@ struct SignupView: View {
     @State private var password        = ""
     @State private var confirmPassword = ""
     @State private var selectedMode: String? = nil
-    // Liability toggle removed
 
-    // MARK: – Alert state
-    @State private var showAlert    = false
+    // MARK: – Alert + sheet state
+    @State private var showAlert = false
     @State private var alertMessage = ""
-
-    // MARK: – For presenting the SignIn sheet
-    @State private var showSignInSheet = false
+    @State private var showSignInEmailSheet = false
 
     // MARK: – Environment
     @EnvironmentObject var userSettings: UserSettings
     @EnvironmentObject var authManager: AuthManager
     @EnvironmentObject var navigationManager: NavigationManager
-    @Environment(\.dismiss) var dismiss
 
     var body: some View {
-        ZStack {
-            // 1) Full-screen gradient background.
+        ZStack(alignment: .topLeading) {
+            // Background gradient
             LinearGradient(
                 gradient: Gradient(colors: [
                     Color.blue.opacity(0.6),
@@ -43,53 +41,53 @@ struct SignupView: View {
             )
             .ignoresSafeArea()
 
-            // 2) Scrollable form
-            ScrollView {
-                VStack(alignment: .leading, spacing: 20) {
-                    Text("Create Account")
-                        .font(.largeTitle).bold()
-                        .foregroundColor(.primary)
+            // Form content with dynamic top inset
+            GeometryReader { geometry in
+                ScrollView {
+                    VStack(alignment: .leading, spacing: 20) {
+                        Text("Create Account")
+                            .font(.largeTitle).bold()
+                            .foregroundColor(.primary)
 
-                    // Fields for sign up:
-                    VStack(spacing: 12) {
-                        RoundedTextField(placeholder: "First name", text: $firstName)
-                        RoundedTextField(placeholder: "Last name",  text: $lastName)
-                        RoundedTextField(placeholder: "Email",      text: $email)
-                        RoundedTextField(placeholder: "Password",   text: $password, isSecure: true)
-                        RoundedTextField(placeholder: "Confirm Password", text: $confirmPassword, isSecure: true)
+                        VStack(spacing: 12) {
+                            RoundedTextField(placeholder: "First name", text: $firstName)
+                            RoundedTextField(placeholder: "Last name",  text: $lastName)
+                            RoundedTextField(placeholder: "Email",      text: $email)
+                            RoundedTextField(placeholder: "Password",   text: $password, isSecure: true)
+                            RoundedTextField(placeholder: "Confirm Password", text: $confirmPassword, isSecure: true)
+                        }
+
+                        Text("Select your mode")
+                            .font(.headline).bold()
+                            .foregroundColor(.primary)
+
+                        VStack(spacing: 10) {
+                            OptionButton(
+                                title: "Student",
+                                description: "Educational‑focused content and exam materials.",
+                                isSelected: selectedMode == "Student"
+                            ) { selectedMode = "Student" }
+
+                            OptionButton(
+                                title: "Clinician",
+                                description: "Clinical‑focused content including dosages and guidelines.",
+                                isSelected: selectedMode == "Clinician"
+                            ) { selectedMode = "Clinician" }
+                        }
+
+                        Color.clear.frame(height: 20)
                     }
-
-                    // Mode selector
-                    Text("Select your mode")
-                        .font(.headline).bold()
-                        .foregroundColor(.primary)
-                    VStack(spacing: 10) {
-                        OptionButton(
-                            title: "Student",
-                            description: "Educational‑focused content and exam materials.",
-                            isSelected: selectedMode == "Student"
-                        ) { selectedMode = "Student" }
-
-                        OptionButton(
-                            title: "Clinician",
-                            description: "Clinical‑focused content including dosages and guidelines.",
-                            isSelected: selectedMode == "Clinician"
-                        ) { selectedMode = "Clinician" }
-                    }
-
-                    // Spacer so content scrolls above the pinned button
-                    Color.clear.frame(height: 20)
+                    .padding(.horizontal)
+                    .padding(.top, geometry.safeAreaInsets.top + -5) // ✅ dynamic spacing
+                    .padding(.bottom, 100)
                 }
-                .padding(.horizontal)
-                .padding(.top, 20)
-                .padding(.bottom, 100) // leave room for the pinned button area
+                .scrollDismissesKeyboard(.interactively)
             }
-            .scrollDismissesKeyboard(.interactively)
 
-            // 3) Pinned bottom area with NEXT button and Sign in link
+            // Bottom area (NEXT + Sign In)
             VStack {
                 Spacer()
-                // NEXT button for sign up action
+
                 Button(action: handleNext) {
                     Text("NEXT")
                         .frame(maxWidth: .infinity, minHeight: 50)
@@ -101,28 +99,48 @@ struct SignupView: View {
                 .disabled(!isFormFilled)
                 .padding(.top, 8)
 
-                // Sign in toggle button
-                Button(action: { showSignInSheet = true }) {
+                Button(action: {
+                    showSignInEmailSheet = true
+                }) {
                     Text("Already have an account? Sign in")
                         .foregroundColor(.white)
                         .underline()
                 }
                 .padding(.bottom, 16)
             }
+
+            // Floating back button
+            Button(action: {
+                onBackToSignIn?()
+            }) {
+                HStack(spacing: 4) {
+                    Image(systemName: "chevron.left")
+                        .font(.system(size: 16, weight: .medium))
+                    Text("Back")
+                        .font(.system(size: 16))
+                }
+                .foregroundColor(.white)
+                .padding(.vertical, 8)
+                .padding(.horizontal, 12)
+                .background(Color.black.opacity(0.2))
+                .cornerRadius(10)
+                .padding(.leading, 16)
+                .padding(.top, 2) // You already adjusted this!
+            }
+            .zIndex(2)
         }
         .ignoresSafeArea(.keyboard, edges: .bottom)
         .alert(alertMessage, isPresented: $showAlert) {
             Button("OK", role: .cancel) { }
         }
-        // Present the dedicated SignInEmailView as a sheet.
-        .sheet(isPresented: $showSignInSheet) {
+        .sheet(isPresented: $showSignInEmailSheet) {
             SignInEmailView()
                 .environmentObject(authManager)
                 .environmentObject(navigationManager)
         }
     }
-    
-    // MARK: – Validation for Sign Up
+
+    // MARK: – Validation
     private var isFormFilled: Bool {
         !firstName.isEmpty &&
         !lastName.isEmpty &&
@@ -132,59 +150,41 @@ struct SignupView: View {
         password == confirmPassword &&
         selectedMode != nil
     }
-    
-    // MARK: – Handle the Sign Up action
+
+    // MARK: – Sign-Up Logic
     private func handleNext() {
-        // Local validation checks
-        guard !firstName.isEmpty else {
-            showError("First name is required."); return
-        }
-        guard !lastName.isEmpty else {
-            showError("Last name is required."); return
-        }
-        guard !email.isEmpty else {
-            showError("Email is required."); return
-        }
-        guard isValidEmail(email) else {
-            showError("Please enter a valid email address."); return
-        }
-        guard !password.isEmpty else {
-            showError("Password is required."); return
-        }
-        guard !confirmPassword.isEmpty else {
-            showError("Please confirm your password."); return
-        }
-        guard password == confirmPassword else {
-            showError("Passwords do not match."); return
-        }
-        guard let mode = selectedMode else {
-            showError("Please select either Student or Clinician."); return
-        }
-        
-        // Firebase sign‑up
+        guard !firstName.isEmpty else { showError("First name is required."); return }
+        guard !lastName.isEmpty else { showError("Last name is required."); return }
+        guard !email.isEmpty else { showError("Email is required."); return }
+        guard isValidEmail(email) else { showError("Please enter a valid email address."); return }
+        guard !password.isEmpty else { showError("Password is required."); return }
+        guard !confirmPassword.isEmpty else { showError("Please confirm your password."); return }
+        guard password == confirmPassword else { showError("Passwords do not match."); return }
+        guard let mode = selectedMode else { showError("Please select either Student or Clinician."); return }
+
         authManager.signUp(email: email, password: password) { result in
             switch result {
             case .success:
                 userSettings.userMode = mode
                 userSettings.hasCompletedOnboarding = true
-                navigationManager.goToRoot()   // Navigate to HomeViewContent
-                dismiss()                      // Dismiss the sign-up view
+                navigationManager.goToRoot()
             case .failure(let err):
                 showError(err.localizedDescription)
             }
         }
     }
-    
+
     private func showError(_ msg: String) {
         alertMessage = msg
         showAlert = true
     }
-    
+
     private func isValidEmail(_ s: String) -> Bool {
         let pattern = #"^\S+@\S+\.\S+$"#
         return s.range(of: pattern, options: .regularExpression) != nil
     }
 }
+
 
 // MARK: – Reusable subviews
 
@@ -246,6 +246,7 @@ struct OptionButton: View {
         .buttonStyle(PlainButtonStyle())
     }
 }
+
 
 // MARK: – Preview
 

@@ -27,18 +27,21 @@ struct DrRajaMed: App {
     @StateObject private var userSettings      = UserSettings()
     @StateObject private var favoritesManager  = FavoritesManager()
     @StateObject private var navigationManager = NavigationManager()
+    @StateObject private var appState          = AppState()
 
     var body: some Scene {
         WindowGroup {
             MainContainerView(
-                procedures: procedures,   // global from ProcedureInstances.swift
-                cases:       cases         // global from CaseInstances.swift
+                procedures: procedures,
+                cases: cases
             )
             .environmentObject(authManager)
             .environmentObject(themeManager)
             .environmentObject(userSettings)
             .environmentObject(favoritesManager)
             .environmentObject(navigationManager)
+            .environmentObject(appState)
+            .preferredColorScheme(themeManager.isDarkMode ? .dark : .light) // ✅ Global override
         }
     }
 }
