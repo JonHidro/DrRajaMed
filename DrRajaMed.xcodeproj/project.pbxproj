@@ -37,7 +37,6 @@
 		4653A9BB2D9E040100D2BB4F /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4653A9A32D9E040100D2BB4F /* SearchView.swift */; };
 		4653A9BD2D9E040100D2BB4F /* CaseInstances.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4653A98E2D9E040100D2BB4F /* CaseInstances.swift */; };
 		4653A9BE2D9E040100D2BB4F /* ProcedureModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4653A9952D9E040100D2BB4F /* ProcedureModel.swift */; };
-		4653A9BF2D9E040100D2BB4F /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4653A9A22D9E040100D2BB4F /* ProfileView.swift */; };
 		4653A9C02D9E040100D2BB4F /* SignInButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4653A97D2D9E040100D2BB4F /* SignInButtons.swift */; };
 		4653A9C12D9E040100D2BB4F /* CaseDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4653A98D2D9E040100D2BB4F /* CaseDetailView.swift */; };
 		4653A9C22D9E040100D2BB4F /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4653A97E2D9E040100D2BB4F /* SignInView.swift */; };
@@ -56,6 +55,7 @@
 		46BAD81B2DAB0F6E00916E41 /* SignInEmailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46BAD81A2DAB0F6400916E41 /* SignInEmailView.swift */; };
 		46C3DCDB2DA62806007D7D5C /* FavoritesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46C3DCDA2DA627FE007D7D5C /* FavoritesManager.swift */; };
 		46D8CDF12DA8E2B900E6FCC2 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 46D8CDF02DA8E2B900E6FCC2 /* GoogleService-Info.plist */; };
+		46DB70F62DB6A50500E829B0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 46DB70F52DB6A50500E829B0 /* LaunchScreen.storyboard */; };
 		46DB979B2D9E3DD70092D9F4 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 46DB979A2D9E3DD70092D9F4 /* FirebaseAnalytics */; };
 		46DB979D2D9E3DD70092D9F4 /* FirebaseAppDistribution-Beta in Frameworks */ = {isa = PBXBuildFile; productRef = 46DB979C2D9E3DD70092D9F4 /* FirebaseAppDistribution-Beta */; };
 		46DB979F2D9E3DD70092D9F4 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 46DB979E2D9E3DD70092D9F4 /* FirebaseAuth */; };
@@ -103,7 +103,6 @@
 		4653A99E2D9E040100D2BB4F /* HomeViewContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewContent.swift; sourceTree = "<group>"; };
 		4653A99F2D9E040100D2BB4F /* LoadingScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingScreen.swift; sourceTree = "<group>"; };
 		4653A9A12D9E040100D2BB4F /* NotificationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsView.swift; sourceTree = "<group>"; };
-		4653A9A22D9E040100D2BB4F /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		4653A9A32D9E040100D2BB4F /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
 		4653A9CB2D9E041200D2BB4F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		465B43942DA5E211003400B3 /* DrRajaMed.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DrRajaMed.entitlements; sourceTree = "<group>"; };
@@ -116,7 +115,16 @@
 		46C3DCDA2DA627FE007D7D5C /* FavoritesManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesManager.swift; sourceTree = "<group>"; };
 		46D8CDF02DA8E2B900E6FCC2 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		46D8CDF22DA8E2C100E6FCC2 /* DrRajaMed-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "DrRajaMed-Info.plist"; sourceTree = "<group>"; };
+		46DB70F52DB6A50500E829B0 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		4699CF052DB6D29E004227BF /* Profile */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Profile;
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		46A5F0062D2D7F9500030CD7 /* Frameworks */ = {
@@ -230,7 +238,7 @@
 				4653A99E2D9E040100D2BB4F /* HomeViewContent.swift */,
 				4653A99F2D9E040100D2BB4F /* LoadingScreen.swift */,
 				4653A9A12D9E040100D2BB4F /* NotificationsView.swift */,
-				4653A9A22D9E040100D2BB4F /* ProfileView.swift */,
+				4699CF052DB6D29E004227BF /* Profile */,
 				4653A9A32D9E040100D2BB4F /* SearchView.swift */,
 			);
 			path = "Navigation&Layout";
@@ -239,6 +247,7 @@
 		46A5F0002D2D7F9500030CD7 = {
 			isa = PBXGroup;
 			children = (
+				46DB70F52DB6A50500E829B0 /* LaunchScreen.storyboard */,
 				46D8CDF02DA8E2B900E6FCC2 /* GoogleService-Info.plist */,
 				46D8CDF22DA8E2C100E6FCC2 /* DrRajaMed-Info.plist */,
 				465B43942DA5E211003400B3 /* DrRajaMed.entitlements */,
@@ -266,6 +275,9 @@
 			buildRules = (
 			);
 			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				4699CF052DB6D29E004227BF /* Profile */,
 			);
 			name = DrRajaMed;
 			productName = "DrRaja Prototype #3";
@@ -318,6 +330,7 @@
 				4653A9A52D9E040100D2BB4F /* IMG_4012.mp4 in Resources */,
 				46D8CDF12DA8E2B900E6FCC2 /* GoogleService-Info.plist in Resources */,
 				4653A9A62D9E040100D2BB4F /* IMG_3423.jpg in Resources */,
+				46DB70F62DB6A50500E829B0 /* LaunchScreen.storyboard in Resources */,
 				4653A9CC2D9E041200D2BB4F /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -356,7 +369,6 @@
 				4653A9BD2D9E040100D2BB4F /* CaseInstances.swift in Sources */,
 				4653A9BE2D9E040100D2BB4F /* ProcedureModel.swift in Sources */,
 				466939A32DAC6BF900BDD737 /* ForgotPasswordView.swift in Sources */,
-				4653A9BF2D9E040100D2BB4F /* ProfileView.swift in Sources */,
 				4653A9C02D9E040100D2BB4F /* SignInButtons.swift in Sources */,
 				4653A9C12D9E040100D2BB4F /* CaseDetailView.swift in Sources */,
 				4653A9C22D9E040100D2BB4F /* SignInView.swift in Sources */,
@@ -508,7 +520,8 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = DrRajaMed.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_ASSET_PATHS = "";
 				ENABLE_PREVIEWS = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
@@ -540,7 +553,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = DrRajaMed.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "";
 				ENABLE_PREVIEWS = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";

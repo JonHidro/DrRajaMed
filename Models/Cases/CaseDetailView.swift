@@ -208,7 +208,7 @@ private extension CaseDetailView {
         .pickerStyle(WheelPickerStyle())
         .frame(height: 120)
         .padding(.horizontal)
-        .onChange(of: stepIndex) { _ in
+        .onChange(of: stepIndex) { oldValue, newValue in
             fetchVideoURL()
         }
     }

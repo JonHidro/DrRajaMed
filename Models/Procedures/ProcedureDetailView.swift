@@ -190,7 +190,7 @@ private extension ProcedureDetailView {
         .pickerStyle(WheelPickerStyle())
         .frame(height: 120)
         .padding(.horizontal)
-        .onChange(of: pickerSteps[procedure.subtitles[subtitleIndex]] ?? 0) { _ in
+        .onChange(of: subtitleIndex) {
             fetchVideoURL()
         }
     }
