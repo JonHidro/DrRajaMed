@@ -17,19 +17,17 @@ struct MainContainerView: View {
     @EnvironmentObject var navigationManager: NavigationManager
     @EnvironmentObject var appState: AppState
 
-    // NEW: Drives actual view rendering (can be de-synced briefly from selectedTab)
+    // Drives actual view rendering (can be briefly de-synced from selectedTab)
     @State private var renderTab: Tab = .home
 
     var body: some View {
         ZStack(alignment: .bottom) {
-            // 1) NavigationStack handles all routing centrally
+            // 1) NavigationStack handles routing
             NavigationStack(path: $navigationManager.navigationPath) {
                 VStack {
                     if !authManager.isSignedIn {
                         AuthGateView() // Handles both SignIn and SignUp flow
-                    }
-                        else {
-                        // Use renderTab to drive which view is displayed
+                    } else {
                         switch renderTab {
                         case .home:
                             HomeViewContent(procedures: procedures, cases: cases)
@@ -55,11 +53,11 @@ struct MainContainerView: View {
             }
             .id(appState.selectedTab)
 
-            // 2) Persistent BottomNavBar once signed in
+            // 2) BottomNavBar (shown when signed in)
             if authManager.isSignedIn {
                 BottomNavBar(selectedTab: $appState.selectedTab) { newTab in
                     if newTab == .home && appState.selectedTab == .home {
-                        // Fake tab switch to refresh HomeViewContent
+                        // Trigger refresh by briefly changing tab
                         appState.selectedTab = .profile
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
                             appState.selectedTab = .home
@@ -76,8 +74,13 @@ struct MainContainerView: View {
             }
         }
         .onAppear {
-            // Initial sync of visual rendering tab
             renderTab = appState.selectedTab
+        }
+        .onChange(of: authManager.isSignedIn) {
+            if $0 {
+                appState.selectedTab = .home
+                renderTab = .home
+            }
         }
         .environmentObject(appState)
     }

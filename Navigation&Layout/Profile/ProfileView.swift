@@ -30,109 +30,109 @@ struct ProfileView: View {
     }
 
     var body: some View {
-        ScrollView(showsIndicators: true) {
-            VStack(spacing: 0) {
-                // MARK: – Header
-                ZStack(alignment: .bottomLeading) {
-                    RadialGradient(
-                        gradient: Gradient(colors: [Color.blue, Color.purple]),
-                        center: .topLeading,
-                        startRadius: 50,
-                        endRadius: 400
-                    )
-                    .ignoresSafeArea(edges: .top)
-                    .frame(height: 100)
+        VStack(spacing: 0) {
+            // MARK: – Header
+            ZStack(alignment: .bottomLeading) {
+                RadialGradient(
+                    gradient: Gradient(colors: [Color.blue, Color.purple]),
+                    center: .topLeading,
+                    startRadius: 50,
+                    endRadius: 400
+                )
+                .ignoresSafeArea(edges: .top)
+                .frame(height: 100)
 
-                    HStack {
-                        Spacer()
-                        Button(action: {
-                            themeManager.isDarkMode.toggle()
-                        }) {
-                            Image(systemName: themeManager.isDarkMode ? "sun.max.fill" : "moon.fill")
-                                .font(.system(size: 22))
-                                .foregroundColor(.white)
-                                .padding(.top, 40)
-                                .padding(.trailing, 16)
-                        }
+                HStack {
+                    Spacer()
+                    Button(action: {
+                        themeManager.isDarkMode.toggle()
+                    }) {
+                        Image(systemName: themeManager.isDarkMode ? "sun.max.fill" : "moon.fill")
+                            .font(.system(size: 22))
+                            .foregroundColor(.white)
+                            .padding(.top, 40)
+                            .padding(.trailing, 16)
                     }
-
-                    Text("Profile")
-                        .font(.largeTitle)
-                        .fontWeight(.bold)
-                        .foregroundColor(.white)
-                        .padding(.leading, 16)
-                        .padding(.bottom, 1)
                 }
 
-                // MARK: – Profile Info
-                VStack(alignment: .center, spacing: 12) {
-                    ProfileImageView()
-
-                    Text(username)
-                        .font(.title2)
-                        .fontWeight(.semibold)
-
-                    Text(userEmail)
-                        .font(.subheadline)
-                        .foregroundColor(.secondary)
-                        .padding(.bottom, 10)
-
-                    Button("Edit Profile") {
-                        newName = username
-                        isEditingName = true
-                    }
-                    .font(.system(size: 14, weight: .semibold))
+                Text("Profile")
+                    .font(.largeTitle)
+                    .fontWeight(.bold)
                     .foregroundColor(.white)
-                    .padding(.horizontal, 20)
-                    .padding(.vertical, 8)
-                    .background(Color.blue)
-                    .cornerRadius(20)
-                    .padding(.bottom, 20)
+                    .padding(.leading, 16)
+                    .padding(.bottom, 1)
+            }
+
+            Spacer().frame(height: 24) // Add a bit of breathing room
+
+            // MARK: – Profile Info
+            VStack(alignment: .center, spacing: 12) {
+                ProfileImageView()
+
+                Text(username)
+                    .font(.title2)
+                    .fontWeight(.semibold)
+
+                Text(userEmail)
+                    .font(.subheadline)
+                    .foregroundColor(.secondary)
+                    .padding(.bottom, 10)
+
+                Button("Edit Profile") {
+                    newName = username
+                    isEditingName = true
                 }
-                .padding(.top, 32) // 👈 Adds space from header
-                .padding(.horizontal)
-                .id(refreshID)
-
-                // MARK: – Settings Section
-                VStack(alignment: .leading, spacing: 0) {
-                    Text("Settings")
-                        .font(.headline)
-                        .padding(.horizontal)
-                        .padding(.top, 16)
-                        .padding(.bottom, 8)
-
-                    settingToggle(label: "Notifications", systemImage: "bell.fill", isOn: $notificationsEnabled)
-
-                    Button(action: { showPrivacyPolicy = true }) {
-                        policyRow(title: "Privacy Policy", icon: "shield.fill")
-                    }
-                    Button(action: { showTerms = true }) {
-                        policyRow(title: "Terms of Service", icon: "doc.text.fill")
-                    }
-                    Button(action: { showAbout = true }) {
-                        policyRow(title: "About", icon: "info.circle.fill")
-                    }
-                }
-                .padding(.bottom, 20)
-
-                // MARK: – Sign Out Button
-                Button(action: {
-                    authManager.signOut()
-                    navigationManager.goToRoot()
-                }) {
-                    Text("Sign Out")
-                        .font(.headline)
-                        .fontWeight(.bold)
-                        .frame(maxWidth: .infinity)
-                        .frame(height: 55)
-                        .background(Color.red)
-                        .foregroundColor(.white)
-                        .cornerRadius(10)
-                }
-                .padding(.horizontal)
+                .font(.system(size: 14, weight: .semibold))
+                .foregroundColor(.white)
+                .padding(.horizontal, 20)
+                .padding(.vertical, 8)
+                .background(Color.blue)
+                .cornerRadius(20)
                 .padding(.bottom, 20)
             }
-            .animation(.easeInOut, value: themeManager.isDarkMode)
+            .padding(.horizontal)
+            .id(refreshID)
+
+            // MARK: – Settings Section
+            VStack(alignment: .leading, spacing: 0) {
+                Text("Settings")
+                    .font(.headline)
+                    .padding(.horizontal)
+                    .padding(.top, 16)
+                    .padding(.bottom, 8)
+
+                settingToggle(label: "Notifications", systemImage: "bell.fill", isOn: $notificationsEnabled)
+
+                Button(action: { showPrivacyPolicy = true }) {
+                    policyRow(title: "Privacy Policy", icon: "shield.fill")
+                }
+                Button(action: { showTerms = true }) {
+                    policyRow(title: "Terms of Service", icon: "doc.text.fill")
+                }
+                Button(action: { showAbout = true }) {
+                    policyRow(title: "About", icon: "info.circle.fill")
+                }
+            }
+            .padding(.bottom, 12)
+
+            // MARK: – Sign Out Button
+            Button(action: {
+                authManager.signOut()
+                navigationManager.goToRoot()
+            }) {
+                Text("Sign Out")
+                    .font(.headline)
+                    .fontWeight(.bold)
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 55)
+                    .background(Color.red)
+                    .foregroundColor(.white)
+                    .cornerRadius(10)
+            }
+            .padding(.horizontal)
+            .padding(.bottom, 18) // ✅ Makes sure it's never cut off
+
+            Spacer().frame(height: 10) // Safety buffer at the bottom
         }
         .background(Color(UIColor.systemBackground))
         .navigationBarHidden(true)
@@ -142,7 +142,6 @@ struct ProfileView: View {
         }
         .sheet(isPresented: $isEditingName) {
             EditNameSheet(newName: $newName) {
-                print("About to update name to: \(newName)")
                 authManager.updateDisplayName(to: newName)
             }
         }
