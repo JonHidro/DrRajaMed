@@ -42,25 +42,24 @@ struct ProfileView: View {
                 .ignoresSafeArea(edges: .top)
                 .frame(height: 100)
 
-                HStack {
-                    Spacer()
-                    Button(action: {
-                        themeManager.isDarkMode.toggle()
-                    }) {
-                        Image(systemName: themeManager.isDarkMode ? "sun.max.fill" : "moon.fill")
-                            .font(.system(size: 22))
-                            .foregroundColor(.white)
-                            .padding(.top, 40)
-                            .padding(.trailing, 16)
-                    }
-                }
-
                 Text("Profile")
                     .font(.largeTitle)
                     .fontWeight(.bold)
                     .foregroundColor(.white)
                     .padding(.leading, 16)
                     .padding(.bottom, 1)
+                    
+                // Position the button directly within the ZStack
+                Button(action: {
+                    themeManager.isDarkMode.toggle()
+                }) {
+                    Image(systemName: themeManager.isDarkMode ? "sun.max.fill" : "moon.fill")
+                        .font(.system(size: 22))
+                        .foregroundColor(.white)
+                }
+                .frame(maxWidth: .infinity, alignment: .trailing) // Align to the right
+                .padding(.trailing, 16)
+                .padding(.bottom, 05 ) // Adjust this value to control vertical position
             }
 
             Spacer().frame(height: 24) // Add a bit of breathing room
@@ -146,7 +145,7 @@ struct ProfileView: View {
             }
         }
         .sheet(isPresented: $showPrivacyPolicy) {
-            LegalModalView(title: "Privacy Policy", content: "Your privacy policy goes here.")
+            LegalModalView(title: "Privacy Policy", content: "Privacy policy goes here.")
         }
         .sheet(isPresented: $showTerms) {
             LegalModalView(title: "Terms of Service", content: "Terms and conditions go here.")

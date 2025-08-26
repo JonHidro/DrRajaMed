@@ -22,7 +22,7 @@ struct LoopingVideoView: UIViewRepresentable {
         let playerLayer = AVPlayerLayer(player: player)
         playerLayer.videoGravity = .resizeAspectFill
         playerLayer.frame = UIScreen.main.bounds
-        playerLayer.setAffineTransform(CGAffineTransform(scaleX: 1.2, y: 1.4)) // Keep your zoom effect
+        playerLayer.setAffineTransform(CGAffineTransform(scaleX: 1.4, y: 1.6)) // Keep your zoom effect
 
         view.layer.addSublayer(playerLayer)
 

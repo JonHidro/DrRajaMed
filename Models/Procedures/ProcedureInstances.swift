@@ -9,16 +9,26 @@ import SwiftUI
 import Foundation
 
 let procedures: [ProcedureModel] = [
-  // 1) Angioplasty
-  ProcedureModel(
-    name:        "Angioplasty",
-    description: "A minimally invasive artery procedure.",
-    imageName:   "angioplasty_image",           // your “angioplasty” asset
-    cardTags:    ["SFA"],
-    subtitles:   ["SFA"],
-    videoFilesBySubtitle: [
-      "SFA": ["angioplasty_step1","angioplasty_step2"]
-    ]
+    ProcedureModel(
+        name:        "Angioplasty",
+        description: "A minimally invasive artery procedure.",
+        imageName:   "angioplasty_image",
+        cardTags:    ["SFA", "ILIAC"],
+        subtitles:   ["SFA", "ILIAC"],
+        videoFilesBySubtitle: [
+            "SFA": [
+                "RajaAppIntro1.mp4",
+                "RajaAppCase1DEMO.mp4",
+                "angioplasty_step3.mp4", // ✅ typo fixed from 'setp3' to 'step3' Dont foregt to input .mp4 after
+                "angioplasty_step4"
+            ],
+            "Illiac": [
+                "iliac_step1",
+                "iliac_step2",
+                "iliac_step3",
+                "iliac_step4"
+            ]
+        ]
   ),
 
   // 2) CTO

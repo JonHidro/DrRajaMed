@@ -20,65 +20,69 @@ struct BottomNavBar: View {
 
     var body: some View {
         HStack(spacing: 0) {
-            TabButton(tab: .home, currentTab: $selectedTab, icon: "house.fill") {
-                if selectedTab == .home {
-                    // Temporarily switch tabs to trigger SwiftUI refresh
-                    selectedTab = .profile
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
-                        selectedTab = .home
-                        navigationManager.goToRoot()
-                    }
-                } else {
-                    navigationManager.goToRoot()
-                    triggerHapticFeedbackAndUpdateTab(.home)
-                }
-            }
-  
-
-
-            TabButton(tab: .search, currentTab: $selectedTab, icon: "magnifyingglass") {
-                triggerHapticFeedbackAndUpdateTab(.search)
-            }
-
-            TabButton(tab: .favorites, currentTab: $selectedTab, icon: "heart.fill") {
-                triggerHapticFeedbackAndUpdateTab(.favorites)
-            }
-
-            TabButton(tab: .notifications, currentTab: $selectedTab, icon: "bell.fill") {
-                triggerHapticFeedbackAndUpdateTab(.notifications)
-            }
-
-            TabButton(tab: .profile, currentTab: $selectedTab, icon: "person.fill") {
-                triggerHapticFeedbackAndUpdateTab(.profile)
-            }
+            tabItem(.home,       icon: "house.fill")
+            tabItem(.search,     icon: "magnifyingglass")
+            tabItem(.favorites,  icon: "heart.fill")
+            tabItem(.notifications, icon: "bell.fill")
+            tabItem(.profile,    icon: "person.fill")
         }
         .frame(height: 60)
         .background(Color(UIColor.systemBackground))
         .shadow(color: Color.black.opacity(0.1), radius: 5, x: 0, y: -2)
         .onAppear {
-            // Prepare haptic engine when view appears
             hapticImpact.prepare()
         }
     }
 
-    /// Triggers haptic feedback and updates the selected tab
+    // MARK: - Helpers
+
+    private func tabItem(_ tab: Tab, icon: String) -> some View {
+        TabButton(
+            tab: tab,
+            currentTab: $selectedTab,
+            icon: icon,
+            activeColor: color(for: tab)
+        ) {
+            if tab == .home && selectedTab == .home {
+                // special “pop to root” hack
+                selectedTab = .profile
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
+                    selectedTab = .home
+                    navigationManager.goToRoot()
+                }
+            } else {
+                if tab == .home {
+                    navigationManager.goToRoot()
+                }
+                triggerHapticFeedbackAndUpdateTab(tab)
+            }
+        }
+    }
+
     private func triggerHapticFeedbackAndUpdateTab(_ tab: Tab) {
-        // Only trigger haptic feedback if we're changing tabs
         if selectedTab != tab {
             hapticImpact.impactOccurred()
         }
-        
-        // Update the tab and notify parent
         selectedTab = tab
         onTabSelected?(tab)
     }
+
+    private func color(for tab: Tab) -> Color {
+        switch tab {
+        case .home:         return .blue
+        case .search:       return .green
+        case .favorites:    return .red
+        case .notifications:return .orange
+        case .profile:      return .purple
+        }
+    }
 }
 
-// MARK: - Tab Button Component
 struct TabButton: View {
     let tab: Tab
     @Binding var currentTab: Tab
     let icon: String
+    let activeColor: Color
     let action: () -> Void
 
     var body: some View {
@@ -86,8 +90,13 @@ struct TabButton: View {
             VStack(spacing: 4) {
                 Image(systemName: icon)
                     .font(.system(size: 22))
-                    .foregroundColor(currentTab == tab ? .blue : .gray)
+                    .foregroundColor(currentTab == tab ? activeColor : .gray)
+                
+                Circle()
+                    .fill(currentTab == tab ? activeColor : .clear)
+                    .frame(width: 6, height: 6)
             }
+            .padding(.vertical, 6)
             .frame(maxWidth: .infinity)
         }
     }

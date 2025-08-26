@@ -9,22 +9,16 @@ import SwiftUI
 import AuthenticationServices
 
 struct SignInButtons: View {
-    // Injected environment objects
     @EnvironmentObject private var authManager:       AuthManager
     @EnvironmentObject private var navigationManager: NavigationManager
-
-    // Store the current nonce for Apple Sign‑In
     @State private var currentNonce: String?
 
     var body: some View {
         VStack(spacing: 12) {
-            Text("or continue with")
-                .font(.footnote)
-                .foregroundColor(.gray)
-
+            // ────────────────────────────────────
+            // Google + Apple buttons (original style)
             HStack(spacing: 12) {
-                // ───────────────────────────────
-                // Google Sign‑In Button
+                // Google Sign-In Button
                 Button(action: signInWithGoogle) {
                     HStack {
                         Image("google_logo")
@@ -39,8 +33,7 @@ struct SignInButtons: View {
                     .cornerRadius(22)
                 }
 
-                // ───────────────────────────────
-                // Apple Sign‑In Button
+                // Apple Sign-In Button
                 SignInWithAppleButton(
                     .signIn,
                     onRequest: configureAppleSignIn(request:),
@@ -49,20 +42,35 @@ struct SignInButtons: View {
                 .frame(width: 160, height: 44)
                 .cornerRadius(22)
             }
+
+            // ────────────────────────────────────
+            // White divider + “Or”
+            HStack(spacing: 8) {
+                Rectangle()
+                    .frame(height: 1)
+                    .frame(maxWidth: .infinity)
+                    .foregroundColor(.white)
+
+                Text("Or")
+                    .font(.footnote)
+                    .foregroundColor(.white)
+
+                Rectangle()
+                    .frame(height: 1)
+                    .frame(maxWidth: .infinity)
+                    .foregroundColor(.white)
+            }
         }
         .padding(.horizontal, 30)
     }
 
-    // MARK: – Google Sign‑In
+    // MARK: – Google Sign-In
     private func signInWithGoogle() {
         guard
-            let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-            let rootVC = windowScene.windows.first?.rootViewController
-        else {
-            print("Unable to retrieve root view controller for Google Sign‑In.")
-            return
-        }
-        authManager.signInWithGoogle(presentingViewController: rootVC)
+            let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+            let root = scene.windows.first?.rootViewController
+        else { return }
+        authManager.signInWithGoogle(presentingViewController: root)
     }
 
     // MARK: – Apple Request Configuration
@@ -75,10 +83,7 @@ struct SignInButtons: View {
 
     // MARK: – Apple Completion Handler
     private func handleAppleSignIn(result: Result<ASAuthorization, Error>) {
-        guard let nonce = currentNonce else {
-            print("🍎 Apple Sign‑In: Missing nonce")
-            return
-        }
+        guard let nonce = currentNonce else { return }
         authManager.handleAppleSignIn(result, nonce: nonce)
         navigationManager.goToRoot()
     }

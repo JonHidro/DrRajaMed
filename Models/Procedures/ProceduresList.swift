@@ -37,7 +37,7 @@ struct ProceduresListView: View {
             .buttonStyle(PlainButtonStyle())
         }
         .listStyle(PlainListStyle())
-        .navigationTitle("Procedures")
+        .navigationTitle("Topics")
     }
 }
 

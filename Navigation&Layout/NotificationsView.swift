@@ -11,40 +11,44 @@ struct NotificationsView: View {
     @EnvironmentObject var themeManager: ThemeManager
 
     var body: some View {
-        ScrollView {
-            VStack(spacing: 0) {
-                // Header with lowered title (matching ProfileView)
-                ZStack(alignment: .bottomLeading) {
-                    RadialGradient(
-                        gradient: Gradient(colors: [Color.orange, Color.red]),
-                        center: .topLeading,
-                        startRadius: 50,
-                        endRadius: 400
-                    )
-                    .ignoresSafeArea(edges: .top)
-                    .frame(height: 100)
-                    
-                    Text("Notifications")
-                        .font(.largeTitle)
-                        .fontWeight(.bold)
-                        .foregroundColor(.white)
-                        .padding(.leading, 16)
-                        .padding(.bottom, 01)
-                }
+        VStack(spacing: 0) {
+            // MARK: – Fixed header
+            ZStack(alignment: .bottomLeading) {
+                RadialGradient(
+                    gradient: Gradient(colors: [Color.orange, Color.red]),
+                    center: .topLeading,
+                    startRadius: 50,
+                    endRadius: 400
+                )
+                .ignoresSafeArea(edges: .top)
+                .frame(height: 100)
                 
-                Spacer()
-                VStack(spacing: 12) {
+                Text("Notifications")
+                    .font(.largeTitle)
+                    .fontWeight(.bold)
+                    .foregroundColor(.white)
+                    .padding(.leading, 16)
+                    .padding(.bottom, 1)
+            }
+
+            // MARK: – Scrollable content
+            ScrollView {
+                VStack(spacing: 24) {
+                    Spacer(minLength: 40)
+                    
                     Image(systemName: "bell.slash.fill")
                         .font(.system(size: 60))
                         .foregroundColor(.secondary)
-                        .padding(.top, 40)
                     
                     Text("No new notifications")
                         .font(.title3)
                         .foregroundColor(.secondary)
+                    
+                    Spacer()  // if you want bottom padding
                 }
-                .padding(.top, 40)
-                Spacer()
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 16)
+                .padding(.horizontal)
             }
         }
         .navigationBarHidden(true)

@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct SignupView: View {
+    // Callback to go back to Sign In
     var onBackToSignIn: (() -> Void)? = nil
 
     // MARK: – Form state
@@ -29,105 +30,97 @@ struct SignupView: View {
     @EnvironmentObject var navigationManager: NavigationManager
 
     var body: some View {
-        ZStack(alignment: .topLeading) {
-            // Background gradient
-            LinearGradient(
-                gradient: Gradient(colors: [
-                    Color.blue.opacity(0.6),
-                    Color.purple.opacity(0.6)
-                ]),
-                startPoint: .top,
-                endPoint: .bottom
-            )
-            .ignoresSafeArea()
+        GeometryReader { geo in
+            ZStack(alignment: .topLeading) {
+                // Background gradient
+                LinearGradient(
+                    gradient: Gradient(colors: [
+                        Color.blue.opacity(0.6),
+                        Color.purple.opacity(0.6)
+                    ]),
+                    startPoint: .top,
+                    endPoint: .bottom
+                )
+                .ignoresSafeArea()
 
-            // Form content with dynamic top inset
-            GeometryReader { geometry in
-                ScrollView {
-                    VStack(alignment: .leading, spacing: 20) {
+                // Main content
+                VStack(alignment: .leading, spacing: 20) {
+                    // ← Back chevron + title
+                    HStack(spacing: 12) {
+                        Button(action: { onBackToSignIn?() }) {
+                            Image(systemName: "chevron.left")
+                                .font(.system(size: 20, weight: .medium))
+                                .foregroundColor(.primary)
+                        }
+
                         Text("Create Account")
                             .font(.largeTitle).bold()
                             .foregroundColor(.primary)
 
-                        VStack(spacing: 12) {
-                            RoundedTextField(placeholder: "First name", text: $firstName)
-                            RoundedTextField(placeholder: "Last name",  text: $lastName)
-                            RoundedTextField(placeholder: "Email",      text: $email)
-                            RoundedTextField(placeholder: "Password",   text: $password, isSecure: true)
-                            RoundedTextField(placeholder: "Confirm Password", text: $confirmPassword, isSecure: true)
-                        }
-
-                        Text("Select your mode")
-                            .font(.headline).bold()
-                            .foregroundColor(.primary)
-
-                        VStack(spacing: 10) {
-                            OptionButton(
-                                title: "Student",
-                                description: "Educational‑focused content and exam materials.",
-                                isSelected: selectedMode == "Student"
-                            ) { selectedMode = "Student" }
-
-                            OptionButton(
-                                title: "Clinician",
-                                description: "Clinical‑focused content including dosages and guidelines.",
-                                isSelected: selectedMode == "Clinician"
-                            ) { selectedMode = "Clinician" }
-                        }
-
-                        Color.clear.frame(height: 20)
+                        Spacer()
                     }
-                    .padding(.horizontal)
-                    .padding(.top, geometry.safeAreaInsets.top + -5) // ✅ dynamic spacing
-                    .padding(.bottom, 100)
+
+                    // ← Form fields
+                    VStack(spacing: 12) {
+                        RoundedTextField(placeholder: "First name",       text: $firstName)
+                        RoundedTextField(placeholder: "Last name",        text: $lastName)
+                        RoundedTextField(placeholder: "Email",            text: $email)
+                        RoundedTextField(placeholder: "Password",         text: $password,       isSecure: true)
+                        RoundedTextField(placeholder: "Confirm Password", text: $confirmPassword, isSecure: true)
+                    }
+
+                    // ← Mode selection header
+                    Text("Select your mode")
+                        .font(.headline).bold()
+                        .foregroundColor(.primary)
+
+                    // ← Mode buttons
+                    VStack(spacing: 10) {
+                        OptionButton(
+                            title: "Student",
+                            description: "Educational-focused content and exam materials.",
+                            isSelected: selectedMode == "Student"
+                        ) {
+                            withAnimation { selectedMode = "Student" }
+                        }
+
+                        OptionButton(
+                            title: "Clinician",
+                            description: "Clinical-focused content including dosages and guidelines.",
+                            isSelected: selectedMode == "Clinician"
+                        ) {
+                            withAnimation { selectedMode = "Clinician" }
+                        }
+                    }
+
+                    // ← Bottom action buttons
+                    VStack(spacing: 8) {
+                        Button(action: handleNext) {
+                            Text("NEXT")
+                                .frame(maxWidth: .infinity, minHeight: 50)
+                                .background(isFormFilled ? Color.blue : Color.gray)
+                                .foregroundColor(.white)
+                                .cornerRadius(10)
+                        }
+                        .disabled(!isFormFilled)
+
+                        Button(action: { showSignInEmailSheet = true }) {
+                            Text("Already have an account? Sign in")
+                                .underline()
+                                .foregroundColor(.white)
+                        }
+                    }
                 }
-                .scrollDismissesKeyboard(.interactively)
+                .padding(.horizontal, 16)
+                // push content below notch
+                .padding(.top, geo.safeAreaInsets.top + 8)
+                // clear just enough at bottom for home-indicator
+                .padding(.bottom, geo.safeAreaInsets.bottom + 8)
+                // hug to the top of screen
+                .frame(maxHeight: .infinity, alignment: .top)
+                // **lift everything up** by 20 points
+                .offset(y: -20)
             }
-
-            // Bottom area (NEXT + Sign In)
-            VStack {
-                Spacer()
-
-                Button(action: handleNext) {
-                    Text("NEXT")
-                        .frame(maxWidth: .infinity, minHeight: 50)
-                        .background(isFormFilled ? Color.blue : Color.gray)
-                        .foregroundColor(.white)
-                        .cornerRadius(10)
-                        .padding(.horizontal, 16)
-                }
-                .disabled(!isFormFilled)
-                .padding(.top, 8)
-
-                Button(action: {
-                    showSignInEmailSheet = true
-                }) {
-                    Text("Already have an account? Sign in")
-                        .foregroundColor(.white)
-                        .underline()
-                }
-                .padding(.bottom, 16)
-            }
-
-            // Floating back button
-            Button(action: {
-                onBackToSignIn?()
-            }) {
-                HStack(spacing: 4) {
-                    Image(systemName: "chevron.left")
-                        .font(.system(size: 16, weight: .medium))
-                    Text("Back")
-                        .font(.system(size: 16))
-                }
-                .foregroundColor(.white)
-                .padding(.vertical, 8)
-                .padding(.horizontal, 12)
-                .background(Color.black.opacity(0.2))
-                .cornerRadius(10)
-                .padding(.leading, 16)
-                .padding(.top, 2) // You already adjusted this!
-            }
-            .zIndex(2)
         }
         .ignoresSafeArea(.keyboard, edges: .bottom)
         .alert(alertMessage, isPresented: $showAlert) {
@@ -185,8 +178,7 @@ struct SignupView: View {
     }
 }
 
-
-// MARK: – Reusable subviews
+// MARK: – Reusable Subviews
 
 struct RoundedTextField: View {
     let placeholder: String
@@ -200,7 +192,9 @@ struct RoundedTextField: View {
             } else {
                 TextField(placeholder, text: $text)
                     .keyboardType(
-                        placeholder.lowercased().contains("email") ? .emailAddress : .default
+                        placeholder.lowercased().contains("email")
+                            ? .emailAddress
+                            : .default
                     )
                     .autocapitalization(.none)
             }
@@ -226,27 +220,34 @@ struct OptionButton: View {
                     Text(title)
                         .font(.headline).bold()
                         .foregroundColor(.primary)
+
                     Text(description)
                         .font(.subheadline)
                         .foregroundColor(.primary.opacity(0.8))
+                        .lineLimit(isSelected ? nil : 2)
+                        .fixedSize(horizontal: false, vertical: true)
                 }
+
                 Spacer()
+
                 if isSelected {
                     Image(systemName: "checkmark.circle.fill")
                         .foregroundColor(.blue)
                 }
             }
-            .padding()
+            .padding(.horizontal, 16)
+            .padding(.vertical, isSelected ? 16 : 10)
             .background(
-                isSelected ? Color(UIColor.tertiarySystemFill)
-                           : Color(UIColor.secondarySystemFill)
+                isSelected
+                    ? Color(UIColor.tertiarySystemFill)
+                    : Color(UIColor.secondarySystemFill)
             )
             .cornerRadius(10)
+            .animation(.easeInOut(duration: 0.2), value: isSelected)
         }
         .buttonStyle(PlainButtonStyle())
     }
 }
-
 
 // MARK: – Preview
 

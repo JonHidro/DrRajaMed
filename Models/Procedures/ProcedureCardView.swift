@@ -61,6 +61,8 @@ struct ProcedureCardView: View {
             return .green
         case "FEMORAL":
             return Color.pink
+        case "Peripheral":
+            return Color.blue
         default:
             return .gray
         }

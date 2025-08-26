@@ -51,8 +51,11 @@
 		466656612DA730E900D0F3F9 /* MainContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 466656602DA730E300D0F3F9 /* MainContainerView.swift */; };
 		466726DD2DB28ECF00DE5A11 /* Tab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 466726DC2DB28ECB00DE5A11 /* Tab.swift */; };
 		466939A32DAC6BF900BDD737 /* ForgotPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 466939A22DAC6BE500BDD737 /* ForgotPasswordView.swift */; };
+		4687E8252DBAAC4500FE954B /* Subscriptions_backup.storekit in Resources */ = {isa = PBXBuildFile; fileRef = 4687E8242DBAAC4500FE954B /* Subscriptions_backup.storekit */; };
+		4687E8292DBAB32C00FE954B /* SubscriptionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4687E8282DBAB31E00FE954B /* SubscriptionManager.swift */; };
 		4692FD6B2DB5ECC200569BD0 /* AuthGateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4692FD6A2DB5ECB900569BD0 /* AuthGateView.swift */; };
 		46BAD81B2DAB0F6E00916E41 /* SignInEmailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46BAD81A2DAB0F6400916E41 /* SignInEmailView.swift */; };
+		46C2251C2DBC18710084F95A /* hero.png in Resources */ = {isa = PBXBuildFile; fileRef = 46C2251B2DBC18710084F95A /* hero.png */; };
 		46C3DCDB2DA62806007D7D5C /* FavoritesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46C3DCDA2DA627FE007D7D5C /* FavoritesManager.swift */; };
 		46D8CDF12DA8E2B900E6FCC2 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 46D8CDF02DA8E2B900E6FCC2 /* GoogleService-Info.plist */; };
 		46DB70F62DB6A50500E829B0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 46DB70F52DB6A50500E829B0 /* LaunchScreen.storyboard */; };
@@ -65,6 +68,7 @@
 		46DB97A72D9E3DD70092D9F4 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 46DB97A62D9E3DD70092D9F4 /* FirebaseFirestore */; };
 		46DB97A92D9E3DD70092D9F4 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 46DB97A82D9E3DD70092D9F4 /* FirebaseMessaging */; };
 		46DB97AB2D9E3DD70092D9F4 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 46DB97AA2D9E3DD70092D9F4 /* FirebaseStorage */; };
+		46F696032DBAC9E000012F45 /* PayWallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46F696022DBAC9B400012F45 /* PayWallView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -110,18 +114,27 @@
 		466656602DA730E300D0F3F9 /* MainContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainContainerView.swift; sourceTree = "<group>"; };
 		466726DC2DB28ECB00DE5A11 /* Tab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tab.swift; sourceTree = "<group>"; };
 		466939A22DAC6BE500BDD737 /* ForgotPasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordView.swift; sourceTree = "<group>"; };
+		4687E8242DBAAC4500FE954B /* Subscriptions_backup.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; name = Subscriptions_backup.storekit; path = ../Subscriptions_backup.storekit; sourceTree = "<group>"; };
+		4687E8282DBAB31E00FE954B /* SubscriptionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionManager.swift; sourceTree = "<group>"; };
 		4692FD6A2DB5ECB900569BD0 /* AuthGateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthGateView.swift; sourceTree = "<group>"; };
 		46BAD81A2DAB0F6400916E41 /* SignInEmailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInEmailView.swift; sourceTree = "<group>"; };
+		46C2251B2DBC18710084F95A /* hero.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hero.png; sourceTree = "<group>"; };
 		46C3DCDA2DA627FE007D7D5C /* FavoritesManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesManager.swift; sourceTree = "<group>"; };
 		46D8CDF02DA8E2B900E6FCC2 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		46D8CDF22DA8E2C100E6FCC2 /* DrRajaMed-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "DrRajaMed-Info.plist"; sourceTree = "<group>"; };
 		46DB70F52DB6A50500E829B0 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
+		46F696022DBAC9B400012F45 /* PayWallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayWallView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		4699CF052DB6D29E004227BF /* Profile */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = Profile;
+			sourceTree = "<group>";
+		};
+		46C2BAD32E25DE2B0059DE5B /* VideoPlayer */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = VideoPlayer;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -172,6 +185,9 @@
 		4653A9882D9E040100D2BB4F /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				4687E8242DBAAC4500FE954B /* Subscriptions_backup.storekit */,
+				46F696022DBAC9B400012F45 /* PayWallView.swift */,
+				4687E8282DBAB31E00FE954B /* SubscriptionManager.swift */,
 				466726DC2DB28ECB00DE5A11 /* Tab.swift */,
 				463F5E2C2DB1EEF3000B3FDB /* AppState.swift */,
 				460C3BDE2DA755EA00B2C470 /* NavigationManager.swift */,
@@ -190,6 +206,7 @@
 			isa = PBXGroup;
 			children = (
 				4653A9892D9E040100D2BB4F /* IMG_3423.jpg */,
+				46C2251B2DBC18710084F95A /* hero.png */,
 				4653A98A2D9E040100D2BB4F /* IMG_4012.mp4 */,
 			);
 			path = Media;
@@ -222,6 +239,7 @@
 		4653A9982D9E040100D2BB4F /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				46C2BAD32E25DE2B0059DE5B /* VideoPlayer */,
 				4653A9912D9E040100D2BB4F /* Cases */,
 				4653A9972D9E040100D2BB4F /* Procedures */,
 			);
@@ -238,8 +256,8 @@
 				4653A99E2D9E040100D2BB4F /* HomeViewContent.swift */,
 				4653A99F2D9E040100D2BB4F /* LoadingScreen.swift */,
 				4653A9A12D9E040100D2BB4F /* NotificationsView.swift */,
-				4699CF052DB6D29E004227BF /* Profile */,
 				4653A9A32D9E040100D2BB4F /* SearchView.swift */,
+				4699CF052DB6D29E004227BF /* Profile */,
 			);
 			path = "Navigation&Layout";
 			sourceTree = "<group>";
@@ -278,6 +296,7 @@
 			);
 			fileSystemSynchronizedGroups = (
 				4699CF052DB6D29E004227BF /* Profile */,
+				46C2BAD32E25DE2B0059DE5B /* VideoPlayer */,
 			);
 			name = DrRajaMed;
 			productName = "DrRaja Prototype #3";
@@ -330,8 +349,10 @@
 				4653A9A52D9E040100D2BB4F /* IMG_4012.mp4 in Resources */,
 				46D8CDF12DA8E2B900E6FCC2 /* GoogleService-Info.plist in Resources */,
 				4653A9A62D9E040100D2BB4F /* IMG_3423.jpg in Resources */,
+				46C2251C2DBC18710084F95A /* hero.png in Resources */,
 				46DB70F62DB6A50500E829B0 /* LaunchScreen.storyboard in Resources */,
 				4653A9CC2D9E041200D2BB4F /* Assets.xcassets in Resources */,
+				4687E8252DBAAC4500FE954B /* Subscriptions_backup.storekit in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -359,6 +380,7 @@
 				4653A9B22D9E040100D2BB4F /* FeatureCarousel.swift in Sources */,
 				4653A9B42D9E040100D2BB4F /* CasesList.swift in Sources */,
 				4692FD6B2DB5ECC200569BD0 /* AuthGateView.swift in Sources */,
+				46F696032DBAC9E000012F45 /* PayWallView.swift in Sources */,
 				4653A9B52D9E040100D2BB4F /* FavoritesView.swift in Sources */,
 				4653A9B62D9E040100D2BB4F /* AuthHelper.swift in Sources */,
 				4653A9B82D9E040100D2BB4F /* HomeViewContent.swift in Sources */,
@@ -379,6 +401,7 @@
 				4653A9C72D9E040100D2BB4F /* LoadingScreen.swift in Sources */,
 				466656612DA730E900D0F3F9 /* MainContainerView.swift in Sources */,
 				4653A9C82D9E040100D2BB4F /* NotificationsView.swift in Sources */,
+				4687E8292DBAB32C00FE954B /* SubscriptionManager.swift in Sources */,
 				460C3BDF2DA755EF00B2C470 /* NavigationManager.swift in Sources */,
 				46318A502DB4A99800E2A7C1 /* NoteTakingView.swift in Sources */,
 				4653A9CA2D9E040100D2BB4F /* HeaderView.swift in Sources */,

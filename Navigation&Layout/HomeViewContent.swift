@@ -23,7 +23,7 @@ struct HomeViewContent: View {
                     LazyVStack(spacing: 5) {
                         // Procedures Section
                         SectionHeader(
-                            title: "Procedures",
+                            title: "Topics",
                             destination: AnyView(ProceduresListView(procedures: procedures))
                         )
                         .background(themeManager.primaryBackgroundColor)
